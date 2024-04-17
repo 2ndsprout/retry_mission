@@ -1,0 +1,50 @@
+<html lang="ko" layout:decorate="~{layout}">
+<div layout:fragment="content">
+    <div class="bg-yellow-400">
+        <div class="bg-red-600 flex">
+
+            <div class="bg-red-300 w-[20%] h-[800px] text-center">
+                <ul class="h-[90%] overflow-y-scroll">
+                    <li th:each="note : ${noteList}" th:class="${note.id == target.id} ? 'bg-blue-600' : ''">
+                        <a th:href="@{|/detail/${note.id}|}" th:text="${note.title}"></a>
+                    </li>
+                </ul>
+                <div class="bg-red-300 mt-4">
+                    <form th:action="@{|/note/create|}" method="post">
+                        <input type="submit" value="추가">
+                    </form>
+                </div>
+            </div>
+
+            <div class="bg-green-300 w-[80%]">
+                <form th:action="@{|/update/${target.id}|}" method="post">
+                    <div>
+                        <input type="text" name="title" th:value="${target.title}">
+                    </div>
+                    <div>
+                        <textarea name="content" cols="30" rows="10" th:text="${target.content}"></textarea>
+                    </div>
+                    <div>
+                        <button onclick="return confirmUpdate()">수정</button>
+                    </div>
+                </form>
+                <form th:action="@{|/delete/${target.id}|}" method="post">
+                    <input type="submit" value="삭제" onclick="return confirmDelete()">
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div layout:fragment="script">
+    <script>
+    function confirmUpdate() {
+    return confirm("정말로 수정하시겠습니까?");
+    }
+
+    function confirmDelete() {
+    return confirm("정말로 삭제하시겠습니까?");
+    }
+    </script>
+</div>
+</html>
